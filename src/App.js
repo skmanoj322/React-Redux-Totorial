@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import redux from "redux";
+import { legacy_createStore as createStore } from "redux";
 
 function App() {
+  const createStore = redux.legacy_createStore;
+  const BUY_CAKE = "BUY_CAKE";
+  function buycake() {
+    return {
+      type: BUY_CAKE,
+      info: "Frist redux action",
+    };
+  }
+  const initialState = {
+    numOfCakes: 10,
+  };
+  const reducer = (state = initialState, action) => {
+    switch (action.type) {
+      case BUY_CAKE:
+        return {
+          ...state,
+          numOfCakes: state.num,
+        };
+      default:
+        return state;
+    }
+  };
+  const store = createStore(reducer);
+  const showState = () => {
+    console.log("Initial State", store.getState());
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={showState}>click</button>
     </div>
   );
 }
